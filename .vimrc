@@ -1,3 +1,10 @@
+" 先在shell下运行下列命令，安装插件。"
+" 1. 安装vim-plug.
+"     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" 2. 安装powerline-font
+"     sudo apt install fonts-powerline
+" ---------------------------------------------------------------------- "
+"  基础命令设置 "
 set number
 set mouse=a
 set hlsearch
@@ -7,11 +14,6 @@ set encoding=utf-8
 set cscopetag
 set cc=120
 set ts=4
-
-" Install vim-plug
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 " ---------------------------------------------------------------------- "
 " F3打开目录 "
 map <F3> : NERDTreeMirror<CR>
@@ -24,7 +26,6 @@ match WhitespaceEOL /\s\+$/
 " 记录退出编辑时的光标位置 "
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 " ---------------------------------------------------------------------- "
-"  sudo apt install fonts-powerline
 set laststatus=2
 let g:airline_powerline_fonts = 1
 " 开启 tab 栏
