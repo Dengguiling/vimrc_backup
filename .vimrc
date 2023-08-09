@@ -6,6 +6,7 @@
 " ---------------------------------------------------------------------- "
 " 基础命令设置 "
 set number
+set relativenumber
 set mouse=a
 set hlsearch
 set incsearch
@@ -15,15 +16,27 @@ set cscopetag
 set cc=120
 set ts=8
 let mapleader=","
-" --- 高亮行尾空格 "
+" --- 高亮行尾空格 --- "
 highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
-" --- 记录退出编辑时的光标位置 "
+" --- 记录退出编辑时的光标位置 --- "
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+set backspace=indent,eol,start
+set clipboard=exclude:.*
+
+" --- FZF.VIM --- "
+nnoremap <C-P> :Files <CR>
+nnoremap <C-F> :Rg <CR>
+
 " ---------------------------------------------------------------------- "
 " * NerdTree * "
+autocmd BufEnter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
+let NERDTreeShowHidden=1
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowLineNumbers=0
+let NERDTreeAutoCenter=1
 " --- F3打开目录 "
-map <F3> : NERDTreeMirror<CR>
+" map <F3> : NERDTreeMirror<CR>
 map <F3> : NERDTreeToggle<CR>
 " ---------------------------------------------------------------------- "
 " * AirLine * "
@@ -34,12 +47,18 @@ let g:airline_powerline_fonts = 1
 " --- 开启 tab 栏 "
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_theme = 'sonokai'
+nnoremap <C-N> :bn <CR>
+nnoremap <C-D> :bd <CR>
+
 " --- 设置切换Buffer快捷键 "
 nnoremap <C-N> :bn<CR>
 nnoremap <C-P> :bp<CR>
 " ---------------------------------------------------------------------- "
 " * nerdcommenter * "
 filetype plugin on
+filetype plugin indent on
+syntax on
 " --- Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " --- Use compact syntax for prettified multi-line comments
@@ -62,10 +81,12 @@ set updatetime=100
 set signcolumn=yes
 " ---------------------------------------------------------------------- "
 " * TagList * "
+let Tlist_Auto_Open=1
 let Tlist_Inc_Winwidth=0
 let Tlist_Use_Left_Window=1
 let Tlist_File_Fold_Auto_Close=1
 let Tlist_Exit_OnlyWindow=1
+autocmd FileType taglist set norelativenumber
 map <F4> :TlistToggle<cr>
 " --- 重新指定tags的路径 "
 set tags=~/.cache/tags/
@@ -85,6 +106,17 @@ let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 " ---------------------------------------------------------------------- "
+let g:rehash256 = 1
+
+if has('termguicolors')
+	set termguicolors
+endif
+
+let g:sonokai_style = 'atlantis' " default, atlantis, andromeda, shusia, maia, espresso
+let g:sonokai_better_performance = 1
+colorscheme sonokai
+
+" ---------------------------------------------------------------------- "
 " * vim-plug * "
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
@@ -98,5 +130,7 @@ else
 endif
 Plug 'preservim/nerdcommenter'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'Yggdroot/LeaderF'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'sainnhe/sonokai'
 call plug#end()
