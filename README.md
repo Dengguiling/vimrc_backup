@@ -9,6 +9,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 2. Install powerline font
 ```shell
 sudo apt install powerline
+sudo apt install fonts-firacode
 ```
 
 3. Install ctags
@@ -26,6 +27,14 @@ cp .vimrc ~/.vimrc
 vim ~/.vimrc
 
 :PlugInstall
+```
+
+6. Install sonokai
+```shell
+cp ~/.vim/plugged/sonokai/autoload/sonokai.vim ~/.vim/autoload/
+cp ~/.vim/plugged/sonokai/colors/ ~/.vim/ -r
+cp ~/.vim/plugged/sonokai/doc/ ~/.vim/doc/ -r
+cp ~/.vim/plugged/sonokai/autoload/airline ~/.vim/autoload/ -r
 ```
 
 ## Plugin
